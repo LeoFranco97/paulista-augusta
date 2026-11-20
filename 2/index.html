@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Experiência fotográfica na Paulista &amp; Augusta | Gus Franco</title>
+    <meta
+      name="description"
+      content="Uma tarde ou noite fotografando pela Avenida Paulista e pela rua Augusta, entre cafés, livros, discos e arte. Filme 35mm, digital em alta resolução e Instax, com um fotógrafo de 16 anos de estrada."
+    />
+    <meta name="author" content="Gustavo Franco" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Experiência fotográfica na Paulista & Augusta" />
+    <meta
+      property="og:description"
+      content="Uma tarde ou noite pela Paulista e pela Augusta, criando retratos no filme 35mm e no digital. Mais do que um ensaio: um tempo dedicado à cidade."
+    />
+    <meta property="og:image" content="./fotos/media/dg-neon.jpg" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0C0C0C" />
+
+    <!--
+      Os quatro primeiros quadros do muro, um por coluna. Sem isso as imagens
+      só começam a baixar depois que o bundle é lido e o React monta, e a
+      página abre em preto chapado. Manter alinhado com o começo de `muro`
+      em src/data/site.ts.
+    -->
+    <link rel="preload" as="image" href="./fotos/media/dg-neon.jpg" fetchpriority="high" />
+    <link rel="preload" as="image" href="./fotos/media/an-rua.jpg" fetchpriority="high" />
+    <link rel="preload" as="image" href="./fotos/media/dg-roxo.jpg" fetchpriority="high" />
+    <link rel="preload" as="image" href="./fotos/media/an-banca.jpg" fetchpriority="high" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="./assets/index-CInppqMO.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-uBDZbeHm.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
