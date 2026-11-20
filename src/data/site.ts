@@ -22,8 +22,8 @@ export const perfil = {
     encodeURIComponent('Oi Gus! Vi a página da experiência na Paulista e Augusta e quero saber mais.'),
   instagram: 'https://www.instagram.com/gus.flashh/',
   instagramHandle: '@gus.flashh',
-  instagramAlt: 'https://www.instagram.com/ogusfranco',
-  instagramAltHandle: '@ogusfranco',
+  instagramAlt: 'https://www.instagram.com/gusfrnco',
+  instagramAltHandle: '@gusfrnco',
   email: 'chiarovisuals@gmail.com',
   local: 'Avenida Paulista e rua Augusta, São Paulo',
 }
