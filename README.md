@@ -1,5 +1,8 @@
 # Paulista & Augusta | experiência fotográfica do Gus Franco
 
+No ar em <https://leofranco97.github.io/paulista-augusta/> (tabela 1) e
+<https://leofranco97.github.io/paulista-augusta/2/> (tabela 2).
+
 Landing de venda da experiência fotográfica na Avenida Paulista e na rua
 Augusta, feita para os clientes do Gus. Mesmo desenho do site dele
 (`~/gus-franco-site`): preto #0C0C0C, Kanit, título em gradiente, muro de
@@ -90,4 +93,4 @@ as duas páginas se moverem igual.
   +55 11 98945-7354, @gus.flashh e @ogusfranco).
 - Revisar com ele os textos de "Como funciona" e de "O combinado", que foram
   escritos a partir do PDF e não copiados dele.
-- Publicar. Não está no ar ainda.
+- Domínio próprio, se o Gus quiser (hoje roda no endereço do GitHub Pages).
