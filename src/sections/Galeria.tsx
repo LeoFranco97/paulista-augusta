@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import FadeIn from '../components/FadeIn'
 import { useLightbox } from '../components/Lightbox'
 import { foto, galeria } from '../data/site'
@@ -39,27 +39,72 @@ function largura(l: number) {
   return 2
 }
 
-/** Joga cada foto na coluna mais baixa até o momento. */
+/**
+ * Decide em que coluna cada foto entra, procurando o arranjo que deixa a
+ * coluna mais alta o mais baixa possível.
+ *
+ * A primeira versão disto era a gulosa de sempre, jogar cada foto na coluna
+ * mais curta até ali. Ela trava num arranjo ruim: com estas onze fotos em
+ * três colunas, fechava 4,03 / 3,70 / 4,87 de altura relativa, uns 440px de
+ * diferença entre a coluna mais curta e a mais alta, bem em cima da frase de
+ * fechamento. A busca exata fecha 4,52 / 4,04 / 4,03, o melhor que esse
+ * conjunto permite em três (cinco fotos em pé contra seis deitadas não
+ * dividem parelho), e derruba a diferença para uns 180px. Em duas colunas,
+ * que é o caso do celular, ela zera: 6,298 contra 6,296.
+ *
+ * Buscar tudo cabe no orçamento: são onze fotos e no máximo três colunas. A
+ * quebra de simetria abaixo, que só deixa a foto i abrir uma coluna nova por
+ * vez, tira as permutações repetidas e de quebra garante que a primeira
+ * fileira leia na ordem da curadoria, da esquerda para a direita. A poda corta
+ * o ramo assim que uma coluna passa da melhor altura já encontrada.
+ */
 function distribuir(quadros: Quadro[], colunas: number) {
+  // Altura de cada foto numa coluna de largura 1, mais uma sobra fixa para a
+  // legenda embaixo, que também ocupa espaço.
+  const alturas = quadros.map((q) => 1 / q.prop + 0.12)
+
+  const plano = new Array<number>(quadros.length).fill(0)
+  const melhorPlano = new Array<number>(quadros.length).fill(0)
+  const soma = new Array<number>(colunas).fill(0)
+  let melhorMax = Infinity
+  let abertas = 0
+
+  const passo = (i: number) => {
+    if (i === quadros.length) {
+      const maior = Math.max(...soma)
+      if (maior < melhorMax) {
+        melhorMax = maior
+        for (let k = 0; k < plano.length; k++) melhorPlano[k] = plano[k]
+      }
+      return
+    }
+
+    const limite = Math.min(colunas, abertas + 1)
+    for (let c = 0; c < limite; c++) {
+      if (soma[c] + alturas[i] >= melhorMax) continue // já perdeu, nem desce
+      const novaColuna = c === abertas
+      soma[c] += alturas[i]
+      plano[i] = c
+      if (novaColuna) abertas += 1
+      passo(i + 1)
+      if (novaColuna) abertas -= 1
+      soma[c] -= alturas[i]
+    }
+  }
+
+  passo(0)
+
   const pilhas: { quadro: Quadro; indice: number }[][] = Array.from({ length: colunas }, () => [])
-  const alturas = new Array(colunas).fill(0)
-
-  quadros.forEach((quadro, indice) => {
-    // Altura relativa a uma coluna de largura 1, mais uma sobra fixa para a
-    // legenda embaixo da foto, que também ocupa espaço na conta.
-    const altura = 1 / quadro.prop + 0.12
-    const menor = alturas.indexOf(Math.min(...alturas))
-    pilhas[menor].push({ quadro, indice })
-    alturas[menor] += altura
-  })
-
+  quadros.forEach((quadro, indice) => pilhas[melhorPlano[indice]].push({ quadro, indice }))
   return pilhas
 }
 
 export default function Galeria() {
   const { abrir } = useLightbox()
   const colunas = useColunas()
-  const pilhas = distribuir(galeria, colunas)
+  // A busca só precisa rodar quando o número de colunas muda, não a cada
+  // render: o acervo é fixo.
+  const pilhas = useMemo(() => distribuir(galeria, colunas), [colunas])
 
   return (
     <section id="galeria" className="bg-[#0C0C0C] px-5 py-20 sm:px-8 md:px-10 md:py-28">

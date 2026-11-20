@@ -51,6 +51,18 @@ const DURACAO_MAX = 40
 /** Os quadros até este índice carregam adiantados: são o primeiro quadro. */
 const PRIORIDADE = 4
 
+/**
+ * Teto de colunas, amarrado ao tamanho do acervo e não ao gosto.
+ *
+ * São onze fotos. Em seis colunas, o rodízio deixa a última com um quadro só,
+ * e aí a mesma foto aparece duas vezes empilhada na mesma coluna, visível de
+ * uma vez. Em quatro, as colunas ficam com três, três, três e dois, a célula
+ * fica com uns 355px numa tela de 1440 e nenhuma repetição cai dentro do
+ * campo. Ao acrescentar foto em `muro`, este teto pode subir junto: a conta é
+ * manter pelo menos dois quadros por coluna, de preferência três.
+ */
+const MAX_COLUNAS = 4
+
 type Medida = { l: number; a: number }
 
 function medidaInicial(): Medida {
@@ -114,7 +126,7 @@ function quantasColunas(largura: number, altura: number) {
   // Em campo baixo (um notebook 1280x720 deixa o muro com uns 360px) o alvo
   // só pela largura dá célula tão alta que mal cabe um quadro por coluna.
   const alvo = Math.max(160, Math.min(CELULA_ALVO, a * 0.62))
-  return Math.min(6, Math.max(3, Math.round(l / alvo)))
+  return Math.min(MAX_COLUNAS, Math.max(3, Math.round(l / alvo)))
 }
 
 function Celula({ quadro, indice }: { quadro: Quadro; indice: number }) {
